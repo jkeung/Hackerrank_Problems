@@ -23,5 +23,6 @@ for i in range(cols):
         except:
             pass
     output_list.append(''.join(text))
-    
+
+
 print ' '.join(output_list)
