@@ -1,0 +1,29 @@
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+
+low = int(raw_input())
+high = int(raw_input())
+kaprekar_numbers = []
+
+for num in range(low,high+1):
+    
+    square = str(num**2)
+    mid = len(square) / 2
+    left = square[:mid]
+    right = square[mid:]
+    try:
+        left_int = int(left)
+    except:
+        left_int = 0
+    try:
+        right_int = int(right)
+    except:
+        right_int = 0
+        
+    if num == left_int + right_int:
+        kaprekar_numbers.append(num)
+        
+if len(kaprekar_numbers) == 0:
+    print 'INVALID RANGE'
+else:
+    for num in kaprekar_numbers:
+        print num,
