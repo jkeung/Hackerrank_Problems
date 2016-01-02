@@ -7,29 +7,37 @@ for i in range(m):
     matrix.append(row)
     
 
-def rotate_matrix(matrix):
+def rotate_matrix(matrix, rotations):
     top = 0
     left = 0
     right = n-1
     bottom = m-1
-
+    
     while top < bottom and left < right:
-        
-        prev = matrix[top][left]
-        
+        temp_list = []
+        # extract outer circle of elements
         for i in range(left, right):
-            matrix[top][i] = matrix[top][i+1]
-        
+            temp_list.append(matrix[top][i])
         for i in range(top, bottom):
-            matrix[i][right] = matrix[i+1][right]
-        
+            temp_list.append(matrix[i][right])
         for i in range(right, left, -1):
-            matrix[bottom][i] = matrix[bottom][i-1]
-        
+            temp_list.append(matrix[bottom][i])
         for i in range(bottom, top, -1):
-            matrix[i][left] = matrix[i-1][left]
+            temp_list.append(matrix[i][left])
         
-        matrix[top+1][left] = prev
+        # move front elements to back
+        rotate = rotations % len(temp_list)
+        temp_list = temp_list[rotate:] + temp_list[:rotate]
+        
+        # reconstruct matrix
+        for i in range(left, right):
+            matrix[top][i] = temp_list.pop(0)
+        for i in range(top, bottom):
+            matrix[i][right] = temp_list.pop(0)
+        for i in range(right, left, -1):
+            matrix[bottom][i] = temp_list.pop(0)
+        for i in range(bottom, top, -1):
+            matrix[i][left] = temp_list.pop(0)
         
         top+=1
         right-=1
@@ -41,6 +49,6 @@ def print_matrix(matrix):
     for row in matrix:
         print ' '.join(row)
 
-for i in range(rotations):
-    rotate_matrix(matrix)
+
+rotate_matrix(matrix, rotations)
 print_matrix(matrix)
